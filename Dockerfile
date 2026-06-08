@@ -1,11 +1,11 @@
-# Step 1: Package the app (skipping tests since Harness already ran them)
+# Step 1: Package the app
 FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
 # Step 2: Put the packaged app into a lightweight delivery box
-FROM openjdk:17-slim
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
